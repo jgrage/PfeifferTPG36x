@@ -17,6 +17,6 @@ __email__ = "grage@physik.tu-berlin.de"
 __status__ = "Production"
 
 from PfeifferTPG36x import *
-    
+
 if __name__ == "__main__":
     PfeifferTPG366.run_server()
