@@ -30,40 +30,34 @@ from PfeifferCommunication import PfeifferEthernetInterface
 
 
 MEASUREMENT_STATUS = {
-    0: 'Measurement data okay',
-    1: 'Underrange',
-    2: 'Overrange',
-    3: 'Sensor error',
-    4: 'Sensor off',
-    5: 'No sensor',
-    6: 'Identification error'
+    0: "Measurement data okay",
+    1: "Underrange",
+    2: "Overrange",
+    3: "Sensor error",
+    4: "Sensor off",
+    5: "No sensor",
+    6: "Identification error"
 }
 
 GAUGE_IDS = {
-    'TPR/PCR': 'Pirani Gauge or Pirani Capacitive gauge',
-    'IKR': 'Cold Cathode Gauge 10E-9 or 10E-11',
-    ### TPG256 specific
-    'TPR': 'Pirani Gauge or Pirani Capacitive gauge',
-    'IKR9': 'Cold Cathode Gauge 10E-9 ',
-    'IKR11': 'Cold Cathode Gauge 10E-11 ',
-    'CMR': 'Linear gauge',
-    ###
-    'PKR': 'FullRange CC Gauge',
-    'PBR': 'FullRange BA Gauge',
-    'IMR': 'Pirani / High Pressure Gauge',
-    'CMR/APR': 'Linear gauge',
-    'noSEn': 'no sensor',
-    'noSENSOR': 'no sensor',
-    'noid': 'no identifier'
+    "TPR/PCR": "Pirani Gauge or Pirani Capacitive gauge",
+    "IKR": "Cold Cathode Gauge 10E-9 or 10E-11",
+    "PKR": "FullRange CC Gauge",
+    "PBR": "FullRange BA Gauge",
+    "IMR": "Pirani / High Pressure Gauge",
+    "CMR/APR": "Linear gauge",
+    "noSEn": "no sensor",
+    "noSENSOR": "no sensor",
+    "noid": "no identifier"
 }
 
 PRESSURE_UNITS = {
-    0: 'mbar',
-    1: 'Torr',
-    2: 'Pa',
-    3: 'Micron',
-    4: 'hPa',
-    5: 'Volt'}
+    0: "mbar",
+    1: "Torr",
+    2: "Pa",
+    3: "Micron",
+    4: "hPa",
+    5: "Volt"}
 
 class PfeifferTPG36x(Device):
     host = device_property(dtype=str)
@@ -180,60 +174,16 @@ class PfeifferTPG36x(Device):
         mnemonic = "TID"
         ids = self.connection.send(mnemonic)
         return [GAUGE_IDS[i] for i in ids]
-
-    """
-    @command(dtype_in=str, dtype_out=str)
-    def DisableChannel(self, channel):
-        self.info_stream("disable channel {0}".format(channel))
-        mnemonic = "SEN"
-        arg_list = []
-
-        for number, name in self.channels.items():
-            if channel == name or channel == str(number):
-                arg_list.append("1")
-            else:
-                arg_list.append("0")
         
-        response = self.connection.send(mnemonic, *arg_list)
-        for ch, status in enumerate(response):
-            if status == "0":
-                msg = "channel {0} can't be turned off".format(ch+1)
-                self.error_stream(msg)
-            else:
-                pass
-                
-                
-    @command(dtype_in=str, dtype_out=str)
-    def EnableChannel(self, channel):
-        self.info_stream("enable channel {0}".format(channel))
-        mnemonic = "SEN"
-        arg_list = []
-
-        for number, name in self.channels.items():
-            if channel == name or channel == str(number):
-                arg_list.append("2")
-            else:
-                arg_list.append("0")
-        print(arg_list)
         
-        response = self.connection.send(mnemonic, *arg_list)
-        for ch, status in enumerate(response):
-            if status == "0":
-                msg = "channel {0} can't be turned on".format(ch+1)
-                self.error_stream(msg)
-            else:
-                pass
-    """
-
-
     @attribute(label="operating hours", display_level=DispLevel.OPERATOR, dtype=int, unit="h", doc="Get the total number of operating hours")
     def OperatingHours(self):
         self.debug_stream("read operating hours")
         mnemonic = "RHR"
         hours = self.connection.send(mnemonic)[0]
         return int(hours)
-    
-
+        
+        
     @attribute(label="firmware version", display_level=DispLevel.OPERATOR, dtype=str, doc="Get the firmware version")            
     def FirmwareVersion(self):
         self.debug_stream("read firmware version")
@@ -324,17 +274,5 @@ class PfeifferTPG36x(Device):
             sys.exit()
         
         
-class PfeifferTPG361(PfeifferTPG36x):
-    number_of_channels = 1
-
-        
-class PfeifferTPG362(PfeifferTPG36x):
-    number_of_channels = 2
-        
-        
-class PfeifferTPG366(PfeifferTPG36x):
-    number_of_channels = 6
-        
-        
 if __name__ == "__main__":
-    PfeifferTPG361.run_server()
+    print("Use Pfeiffer361.py, Pfeiffer362.py or Pfeiffer366.py to start a server.")
