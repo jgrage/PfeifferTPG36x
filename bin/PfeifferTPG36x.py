@@ -272,6 +272,18 @@ class PfeifferTPG36x(Device):
             self.error_stream("error in init_device(): {0}".format(exc))
             self.set_state(DevState.OFF)
             sys.exit()
+            
+            
+class PfeifferTPG361(PfeifferTPG36x):
+    number_of_channels = 1
+
+        
+class PfeifferTPG362(PfeifferTPG36x):
+    number_of_channels = 2
+        
+        
+class PfeifferTPG366(PfeifferTPG36x):
+    number_of_channels = 6
         
         
 if __name__ == "__main__":
